@@ -22,17 +22,20 @@ const produtos = [
 ];
 
 const App = () => {
-  return (
-    <>
-      {produtos.map(({id, nome, preco, cores}) => {
-        return (+preco.replace('R$', '')>1500 && <section key={id}>
-          <h2>{nome}</h2>
-          <p>Preço: {preco}</p>
-          <ul>{cores.map(cor => (<li key={cor} style={{backgroundColor: cor}}>{cor}</li>))}</ul>
-        </section>)
-      })}
-    </>
+  const dados = produtos.filter(
+    ({preco}) => Number(preco.replace('R$', '')) > 1500
   );
+
+  return <section>
+    {dados.map(({id, nome, preco, cores}) => 
+      <div key={id}>
+        <h1>{nome}</h1>
+        <p>Preço: {preco}</p>
+        <ul>{cores.map(cor => 
+          (<li key={cor} style={{color: 'white', backgroundColor: cor}}>{cor}</li>))}
+        </ul>
+      </div>)}
+  </section>
 };
 
 export default App;
