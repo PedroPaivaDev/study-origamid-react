@@ -16,7 +16,7 @@ const produtos = [
   {
     id: 3,
     nome: 'Tablet',
-    preco: 'R$ 1500',
+    preco: 'R$ 100',
     cores: ['#365069', '#47c1c8', '#f95786'],
   },
 ];
@@ -25,11 +25,11 @@ const App = () => {
   return (
     <>
       {produtos.map(({id, nome, preco, cores}) => {
-        return <section key={id}>
+        return (+preco.replace('R$', '')>1500 && <section key={id}>
           <h2>{nome}</h2>
-          <p>{preco}</p>
-          <ul>{cores}</ul>
-        </section>
+          <p>Preço: {preco}</p>
+          <ul>{cores.map(cor => (<li key={cor} style={{backgroundColor: cor}}>{cor}</li>))}</ul>
+        </section>)
       })}
     </>
   );
