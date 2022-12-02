@@ -1,9 +1,10 @@
 import React from 'react';
+import Titulo from './Titulo';
 
 const Home = () => {
   return (
     <div>
-        <h3 style={{color: 'green'}}>Home</h3>
+        <Titulo>Home</Titulo>
         <p>Essa é a home do site</p>
     </div>
   )
