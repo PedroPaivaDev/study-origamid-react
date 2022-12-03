@@ -1,22 +1,35 @@
 import React from 'react';
-import Header from './components/Header';
-import Home from './components/Home';
-import Produtos from './components/Produtos';
+import api from './services/api'
 
 const App = () => {
-  const { pathname } = window.location;
-  let pagina;
 
+  const urlNotebook = "https://ranekapi.origamid.dev/json/api/produto/notebook";
+  const urlSmartphone = "https://ranekapi.origamid.dev/json/api/produto/smartphone";
+  const urlTablet = "https://ranekapi.origamid.dev/json/api/produto/tablet"
 
-  // const handleClick = (event) => {
-  //   event.preventDefault()
-  //   return(event.target.innerText)
-  // }
+  const [produto, setProduto] = React.useState({
+    nome: '',
+    preco: '',
+    fotos: []
+  })
+
+  async function handleClick (url) {
+    const dados = await api(url)
+    setProduto(
+      dados
+    )
+  }
 
   return (
     <>
-      <Header/>
-      {pathname === '/produtos' ? <Produtos/> : <Home/>}
+      <button onClick={() => handleClick(urlNotebook)}>notebook</button>
+      <button onClick={() => handleClick(urlSmartphone)}>smartphone</button>
+      <button onClick={() => handleClick(urlTablet)}>tablet</button>
+      <h1>{produto.nome}</h1>
+      <p>R$ {produto.preco}</p>
+      {produto.fotos.map(({src, titulo}, index) => {
+        return <img key={index} src={src} alt={titulo} />
+      })}
     </>
   )
 };
