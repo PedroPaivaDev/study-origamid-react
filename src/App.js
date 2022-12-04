@@ -1,35 +1,28 @@
 import React from 'react';
+import Produto from './components/Produto';
 import api from './services/api'
 
 const App = () => {
 
-  const urlNotebook = "https://ranekapi.origamid.dev/json/api/produto/notebook";
-  const urlSmartphone = "https://ranekapi.origamid.dev/json/api/produto/smartphone";
-  const urlTablet = "https://ranekapi.origamid.dev/json/api/produto/tablet"
+  const [produto, setProduto] = React.useState();
+  const [carregando, setCarregando] = React.useState()
 
-  const [produto, setProduto] = React.useState({
-    nome: '',
-    preco: '',
-    fotos: []
-  })
-
-  async function handleClick (url) {
+  async function handleClick (event) {
+    const nomeProduto = event.target.innerText
+    const url = `https://ranekapi.origamid.dev/json/api/produto/${nomeProduto}`
+    setCarregando(true)
     const dados = await api(url)
-    setProduto(
-      dados
-    )
+    setProduto(dados)
+    setCarregando(false)
   }
 
   return (
     <>
-      <button onClick={() => handleClick(urlNotebook)}>notebook</button>
-      <button onClick={() => handleClick(urlSmartphone)}>smartphone</button>
-      <button onClick={() => handleClick(urlTablet)}>tablet</button>
-      <h1>{produto.nome}</h1>
-      <p>R$ {produto.preco}</p>
-      {produto.fotos.map(({src, titulo}, index) => {
-        return <img key={index} src={src} alt={titulo} />
-      })}
+      <button style={{marginRight: '.5rem'}} onClick={handleClick}>notebook</button>
+      <button style={{margin: '.5rem'}} onClick={handleClick}>smartphone</button>
+      <button style={{margin: '.5rem'}} onClick={handleClick}>tablet</button>
+      {carregando && <p>Carregando...</p>}
+      {!carregando && produto && <Produto produto={produto}/>}     
     </>
   )
 };
