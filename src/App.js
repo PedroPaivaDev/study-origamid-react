@@ -8,7 +8,7 @@ const App = () => {
   
   const [productId, setProductId] = React.useState(storage);
 
-  window.localStorage.setItem('produto', productId)
+  if (productId) window.localStorage.setItem('produto', productId);
 
   const handleClick = (event) => {
     const target = event.target.innerText;
