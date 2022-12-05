@@ -1,5 +1,7 @@
-export default async function buscarProduto(url) {
-    const resposta = await fetch(url);
-    const json = await resposta.json();
-    return json
+async function fetchData (url) {
+    const response = await fetch(url);
+    const json = await response.json();
+    return json;
 }
+
+export default fetchData;
