@@ -15,8 +15,12 @@ export const GlobalStorage = ({ children }) => {
         data();
     }, [])
 
+    const limparDados = () => {
+        produtos && setProdutos()
+    }
+
     return (
-        <GlobalContext.Provider value={{ produtos, setProdutos }}>
+        <GlobalContext.Provider value={{ produtos, limparDados }}>
         {children}
         </GlobalContext.Provider>
     );

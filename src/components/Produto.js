@@ -4,16 +4,12 @@ import { GlobalContext } from '../contexts/GlobalStorage';
 const Produto = () => {
   const global = React.useContext(GlobalContext);
 
-  const limparDados = () => {
-    global.produtos && global.setProdutos()
-  }
-
   return (
     <div>
-        {global.produtos && <ul>{global.produtos.map((produto, index) => {
-          return <li key={index}>{produto.nome}, preço: R$ {produto.preco}</li>
+        {global.produtos && <ul>{global.produtos.map(produto => {
+          return <li key={produto.id}>{produto.nome}, preço: R$ {produto.preco}</li>
         })}</ul>}
-      <button onClick={limparDados}>Ocultar Produtos</button>
+      <button onClick={global.limparDados}>Ocultar Produtos</button>
     </div>
   );
 };
