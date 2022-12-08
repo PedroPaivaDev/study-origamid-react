@@ -4,14 +4,14 @@ const LabelCheck = ({ value, checked, onChange, children}) => {
   
   return (
     <>
-      <label>
+      <label style={{textTransform: 'capitalize'}}>
         <input
           type="checkbox"
           value={value}
           checked={checked(value)}
           onChange={onChange}
         />
-        {children}
+        {` ${children}`}
       </label>
     </>
   )
