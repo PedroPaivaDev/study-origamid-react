@@ -1,68 +1,61 @@
 import React from 'react';
+import Radio from './components/Radio';
 import {perguntas} from './components/perguntas';
 
-const respostas = perguntas.reduce((acc, field) => {
-  return {
-    ...acc, [field.id]:field.resposta,
-  }
-}, {})
-
 const App = () => {
-  const [pergun, setPerguntas] = React.useState(0);
-  const [marcadas, setMarcadas] = React.useState(
+  const [respostas, setRespostas] = React.useState(
     perguntas.reduce((acc, field) => {
       return {
         ...acc, [field.id]:'',
       }
     }, {})
   );
-  const [respostasCertas, setRespostasCertas] = React.useState([]);
+  const [slide, setSlide] = React.useState(0);
+  const [resultado, setResultado] = React.useState(null);
 
-  React.useEffect(() => {
-    if (pergun >= Object.keys(perguntas).length) {
-      const arrayCertas = Object.keys(marcadas).filter((id)=> marcadas[id]===respostas[id]);
-      setRespostasCertas(arrayCertas);
-    }
-  },[marcadas, pergun])
-  
-  const renderPergunta = ({pergunta, options, id}) => {
-    return <div>
-      <section style={{border: '2px solid #d1d5db', padding: '30px', marginBottom: '20px'}}>
-        <h4 style={{backgroundColor: 'white', marginTop: '-45px', boxSizing: 'content-box'}}>{pergunta}</h4>
-        <div>{options.map((option, index) => (
-          <label key={index}>
-            <input 
-              type="radio" 
-              value={option} 
-              onChange={({target}) => (setMarcadas({...marcadas, [id]: target.value}))}
-              checked={marcadas[id] === option}
-            />
-            {option}
-          </label>            
-        ))}</div>
-      </section>
-      {id!=='p1' && <button 
-        style ={{marginRight: '10px'}}
-        onClick={(event)=>{
-          event.preventDefault();
-          setPerguntas(pergun-1);
-      }}>Anterior</button>}
-      <button 
-        onClick={(event)=>{
-          event.preventDefault();
-          if (marcadas[id] === '') return;
-          setPerguntas(pergun+1);
-      }}>Próxima</button>
-    </div>
+  function handleChange({ target }) {
+    setRespostas({ ...respostas, [target.id]: target.value });
+  }
+
+  function resultadoFinal() {
+    const corretas = perguntas.filter(
+      ({ id, resposta }) => respostas[id] === resposta,
+    );
+    setResultado(`Você acertou: ${corretas.length} de ${perguntas.length}`);
+  }
+
+  function handleAnterior() {
+      setSlide(slide - 1);
+  }
+
+  function handleProxima() {
+    if (slide < perguntas.length - 1) {
+      setSlide(slide + 1);
+    } else if (respostas[perguntas[(perguntas.length-1)].id] !== '') {
+      setSlide(slide + 1);
+      resultadoFinal();
+     }
   }
   
   return (
-    <form>
-      {
-        pergun<Object.keys(perguntas).length ? 
-        <section>{renderPergunta(perguntas[pergun])}</section> :
-        <p>Você acertou: {respostasCertas.length} de {Object.keys(perguntas).length} Perguntas</p>
-      }
+    <form onSubmit={(event) => event.preventDefault()}>
+      {perguntas.map((pergunta, index) => (
+        <Radio
+          active={slide === index}
+          key={pergunta.id}
+          value={respostas[pergunta.id]}
+          onChange={handleChange}
+          {...pergunta}
+        />
+      ))}
+      {resultado ? (
+        <p>{resultado}</p>
+      ) : (
+        <>
+          {slide!==0 && <button style={{marginRight: '15px'}} onClick={handleAnterior}>Anterior</button>}
+          <button onClick={handleProxima}>Próxima</button>
+        </>
+      )}
     </form>
   );
 };
