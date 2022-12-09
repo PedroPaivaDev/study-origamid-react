@@ -1,17 +1,24 @@
 import React from 'react';
 import {perguntas} from './components/perguntas';
 
+const respostas = perguntas.reduce((acc, field) => {
+  return {
+    ...acc, [field.id]:field.resposta,
+  }
+}, {})
+
 const App = () => {
   const [pergun, setPerguntas] = React.useState(0);
-  const [marcadas, setMarcadas] = React.useState({
-    p1: '',
-    p2: '',
-    p3: '',
-    p4: '',
-  });
-  const [respostasCertas, setRespostasCertas] = React.useState(0);
+  const [marcadas, setMarcadas] = React.useState(
+    perguntas.reduce((acc, field) => {
+      return {
+        ...acc, [field.id]:'',
+      }
+    }, {})
+  );
+  const [respostasCertas, setRespostasCertas] = React.useState([]);
 
-  const renderPergunta = ({pergunta, options, resposta, id}) => {
+  const renderPergunta = ({pergunta, options, id}) => {
     return <div>
       <section style={{border: '2px solid #d1d5db', padding: '30px', marginBottom: '20px'}}>
         <h4 style={{backgroundColor: 'white', marginTop: '-45px', boxSizing: 'content-box'}}>{pergunta}</h4>
@@ -27,23 +34,31 @@ const App = () => {
           </label>            
         ))}</div>
       </section>
-      <button onClick={(event)=>{
-        event.preventDefault();
-        if (marcadas[id] === '') return;
-        if (marcadas[id] === resposta) setRespostasCertas(respostasCertas+1);
-        setPerguntas(pergun+1);
+      {id!=='p1' && <button 
+        style ={{marginRight: '10px'}}
+        onClick={(event)=>{
+          event.preventDefault();
+          setPerguntas(pergun-1);
+      }}>Anterior</button>}
+      <button 
+        onClick={(event)=>{
+          event.preventDefault();
+          if (marcadas[id] === '') return;
+          setPerguntas(pergun+1);
+          if (!pergun<Object.keys(perguntas).length) {
+            const arrayCertas = Object.keys(marcadas).filter((id)=> marcadas[id]===respostas[id]);
+            setRespostasCertas(arrayCertas);
+          }
       }}>Próxima</button>
     </div>
   }
-
-  console.log()
   
   return (
-    <form>
+    <form>      
       {
         pergun<Object.keys(perguntas).length ? 
         <section>{renderPergunta(perguntas[pergun])}</section> :
-        <p>Você acertou: {respostasCertas} de 4 Perguntas</p>
+        <p>Você acertou: {respostasCertas.length} de {Object.keys(perguntas).length} Perguntas</p>
       }
     </form>
   );
