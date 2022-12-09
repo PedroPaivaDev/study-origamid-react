@@ -18,6 +18,13 @@ const App = () => {
   );
   const [respostasCertas, setRespostasCertas] = React.useState([]);
 
+  React.useEffect(() => {
+    if (pergun >= Object.keys(perguntas).length) {
+      const arrayCertas = Object.keys(marcadas).filter((id)=> marcadas[id]===respostas[id]);
+      setRespostasCertas(arrayCertas);
+    }
+  },[marcadas, pergun])
+  
   const renderPergunta = ({pergunta, options, id}) => {
     return <div>
       <section style={{border: '2px solid #d1d5db', padding: '30px', marginBottom: '20px'}}>
@@ -45,16 +52,12 @@ const App = () => {
           event.preventDefault();
           if (marcadas[id] === '') return;
           setPerguntas(pergun+1);
-          if (!pergun<Object.keys(perguntas).length) {
-            const arrayCertas = Object.keys(marcadas).filter((id)=> marcadas[id]===respostas[id]);
-            setRespostasCertas(arrayCertas);
-          }
       }}>Próxima</button>
     </div>
   }
   
   return (
-    <form>      
+    <form>
       {
         pergun<Object.keys(perguntas).length ? 
         <section>{renderPergunta(perguntas[pergun])}</section> :
