@@ -1,3 +1,10 @@
-.active {
-    color: tomato;
+.navButtons button {
+    margin-right: 1rem;
+    background-color: #dedede;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.active button {
+    background-color: #bebebe;
 }

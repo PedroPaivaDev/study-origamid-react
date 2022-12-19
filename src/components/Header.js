@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 import { NavLink } from 'react-router-dom';
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 
 const Header = () => {
 
@@ -14,10 +14,9 @@ const Header = () => {
   // }, [location])
 
   return (
-    <nav>
-        <NavLink to='/' end>Home</NavLink>{` | `}
-        <NavLink to='sobre'>Sobre</NavLink>{` | `}
-        <NavLink to='login'>Login</NavLink>
+    <nav className='navButtons'>
+        <NavLink to='/' end><button>Produtos</button></NavLink>
+        <NavLink to='contato'><button>Contato</button></NavLink>
     </nav>
   )
 }
