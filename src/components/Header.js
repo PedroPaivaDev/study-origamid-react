@@ -1,5 +1,5 @@
 import React from 'react';
-import './Header.css';
+import styles from './Header.module.css';
 import { NavLink } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom'
 
@@ -14,9 +14,11 @@ const Header = () => {
   // }, [location])
 
   return (
-    <nav className='navButtons'>
-        <NavLink to='/' end><button>Produtos</button></NavLink>
-        <NavLink to='contato'><button>Contato</button></NavLink>
+    <nav className={styles.header}>
+      <ul>
+        <li><NavLink className={styles.link} to='/' end>Produtos</NavLink></li>
+        <li><NavLink className={styles.link} to='contato'>Contato</NavLink></li>
+      </ul>  
     </nav>
   )
 }

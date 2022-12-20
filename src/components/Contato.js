@@ -1,16 +1,22 @@
-import React from 'react'
+import React from 'react';
+import Head from './Head';
+import styles from './Contato.module.css';
+import foto from '../assets/contato.jpg';
 
 const Contato = () => {
   return (
-    <div style={{display:'flex', gap: '2rem'}}>
-        <img src='http://placekitten.com/400/600' style={{borderRadius: '1rem'}} alt='foto'/>
+    <section className={`${styles.contato} animeLeft`}>
+      <Head title='Contato' description='Entre em contato' />
+        <img src={foto} alt='máquina de escrever'/>
         <div>
-            <h2>Entre em contato.</h2>
-            <p><span style={{color: '#dedede'}}>___ </span>pedro@origamid.com</p>
-            <p><span style={{color: '#dedede'}}>___ </span>(37) 9 9999-9999</p>
-            <p><span style={{color: '#dedede'}}>___ </span>Rua Ali Perto, 999</p> 
+            <h1>Entre em contato.</h1>
+            <ul className={styles.dados}>
+              <li>pedro@origamid.com</li>
+              <li>(37) 9 9999-9999</li>
+              <li>Rua Ali Perto, 999</li>
+            </ul>
         </div>
-    </div>
+    </section>
   )
 }
 

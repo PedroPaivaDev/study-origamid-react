@@ -1,7 +1,8 @@
 import React from 'react';
+import styles from './Produtos.module.css';
+import Head from './Head';
 import { Link } from 'react-router-dom';
 import getProducts from '../service/api';
-import './Produtos.css';
 
 const Produtos = () => {
   const [products, setProducts] = React.useState(null);
@@ -16,12 +17,15 @@ const Produtos = () => {
 
   return (
     <>
-      {!products ? <p>carregando...</p> : <div className='shop'>{products.map(({id, fotos, nome}) => {
-        return (<div key={id}>
-          <Link to={`/produto/${id}`}><img src={fotos[0].src} alt={id}/></Link>
-          <h2>{nome}</h2>
-        </div>)
-      })}</div>}
+      {!products ? <p>carregando...</p> : 
+      <section className={`${styles.produtos} animeLeft`}>{products.map(({id, fotos, nome}) => (
+        <Link to={`/produto/${id}`} key={id}>
+          <img src={fotos[0].src} alt={fotos[0].titulo}/>
+          <h1 className={styles.nome}>{nome}</h1>
+        </Link>
+        ))}
+        <Head title='Produtos' description='Nossos produtos' />
+      </section>}
     </>
   )
 }
