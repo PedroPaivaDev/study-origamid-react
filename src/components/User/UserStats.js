@@ -4,7 +4,7 @@ import { STATS_GET } from '../../service/api';
 import Error from '../Helper/Error';
 import Head from '../Helper/Head';
 import Loading from '../Helper/Loading';
-import UserStatsGraphs from './UserStatsGraphs';
+const UserStatsGraphs = React.lazy(() => import('./UserStatsGraphs'));
 
 const UserStats = () => {
 
@@ -21,10 +21,10 @@ const UserStats = () => {
   if(loading) return <Loading />
   if(error) return <Error error={error} />
   if(data) return (
-    <div>
+    <React.Suspense fallback={<></>}>
       <Head title="Estatísticas" />
       <UserStatsGraphs data={data} />
-    </div>
+    </React.Suspense>
   );
   else return null;
 }
