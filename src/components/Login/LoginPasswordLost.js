@@ -22,7 +22,7 @@ const LoginPasswordLost = () => {
   } /* essa url deve ser a do site que eu fiz o deploy */
 
   return (
-    <section>
+    <section className='animeLeft'>
       <Head title="Lost" />
       <h1 className='title'>Perdeu a senha?</h1>
       {data ? <p style={{color: '#4c1'}}>{data}</p> : 
